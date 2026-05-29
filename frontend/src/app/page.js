@@ -6,6 +6,7 @@ export default function Home() {
 const [recording, setRecording] = useState(false);
 const [audioURL, setAudioURL] = useState("");
 const [transcript, setTranscript] = useState("");
+const [history, setHistory] = useState([])
 
 const mediaRecorderRef = useRef(null);
 const chunksRef = useRef([]);
@@ -78,6 +79,10 @@ if (recognitionRef.current) {
   recognitionRef.current.stop();
 }
 
+if(transcript.trim()!=="")
+{
+  setHistory((prev) => [prev, transcript,]);
+}
 setRecording(false);
 
 
@@ -115,6 +120,36 @@ Speech-to-Text App </h1>
       </button>
     </div>
   </div>
+  <div className="bg-white mt-6 p-6 rounded-xl shadow-md">
+
+  <h2 className="text-2xl font-semibold mb-4">
+    Transcript History
+  </h2>
+
+  {history.length === 0 ? (
+
+    <p>No transcripts yet.</p>
+
+  ) : (
+
+    <ul className="space-y-2">
+
+      {history.map((item, index) => (
+
+        <li
+          key={index}
+          className="border p-3 rounded-lg"
+        >
+          {index + 1}. {item}
+        </li>
+
+      ))}
+
+    </ul>
+
+  )}
+
+</div>
 
   <div className="bg-white mt-6 p-6 rounded-xl shadow-md">
     <h2 className="text-2xl font-semibold mb-4">
